@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  background: #f8f9fa;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #1f2937;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar-link:hover {
+  background: #eef2ff;
+}
+
+.sidebar-icon {
+  flex: 0 0 auto;
+}
+
+.sidebar-collapsed .sidebar-link {
+  justify-content: center;
+  padding: 8px 6px;
+}
+
+.sidebar-collapsed .sidebar-label {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-section {
+  display: none;
+}
