@@ -2,6 +2,7 @@ from dash import dcc, html
 import dash_mantine_components as dmc
 
 from components.nav import sidebar_nav
+from theme import ICON_RADIUS, MUTED_TEXT_COLOR
 
 
 def app_shell(page_container):
@@ -28,7 +29,7 @@ def app_shell(page_container):
                                                 size="sm",
                                             ),
                                         ),
-                                        dmc.ThemeIcon("EA", variant="filled", radius="xl"),
+                                        dmc.ThemeIcon("EA", variant="filled", radius=ICON_RADIUS),
                                         dmc.Stack(
                                             gap=0,
                                             children=[
@@ -36,7 +37,7 @@ def app_shell(page_container):
                                                 dmc.Text(
                                                     "Dash + Mantine starter app",
                                                     size="xs",
-                                                    c="dimmed",
+                                                    c=MUTED_TEXT_COLOR,
                                                 ),
                                             ],
                                         ),

@@ -4,9 +4,9 @@ from dash import Input, Output, State, callback
 import dash_mantine_components as dmc
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 
 from services.arx_service import get_arx_analysis_result, get_arx_summary_data
+from utils.plotting_utils import apply_standard_chart_layout, empty_figure
 
 
 def _list_items_from_rows(rows: pd.DataFrame, date_col: str) -> list:
@@ -23,23 +23,6 @@ def _list_items_from_rows(rows: pd.DataFrame, date_col: str) -> list:
         )
         for _, row in rows.iterrows()
     ]
-
-
-def _empty_figure(message: str) -> go.Figure:
-    fig = go.Figure()
-    fig.add_annotation(
-        text=message,
-        x=0.5,
-        y=0.5,
-        xref="paper",
-        yref="paper",
-        showarrow=False,
-        font={"size": 14, "color": "#6b7280"},
-    )
-    fig.update_xaxes(visible=False)
-    fig.update_yaxes(visible=False)
-    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), plot_bgcolor="white")
-    return fig
 
 
 def _format_table(df_table: pd.DataFrame) -> list:
@@ -79,7 +62,7 @@ def _ab_significance_approx(filtered_full: pd.DataFrame, selected_experiment_nam
             "Need selected experiment and peer experiment rows after filters.",
             "No significance test run.",
             "gray",
-            _empty_figure("Not enough rows for A/B significance"),
+            empty_figure("Not enough rows for A/B significance"),
         )
 
     metric = "fill_rate"
@@ -92,7 +75,7 @@ def _ab_significance_approx(filtered_full: pd.DataFrame, selected_experiment_nam
             "At least 2 observations per cohort are required.",
             "No significance test run.",
             "gray",
-            _empty_figure("Need >=2 observations in each cohort"),
+            empty_figure("Need >=2 observations in each cohort"),
         )
 
     t_mean = float(t_values.mean())
@@ -109,7 +92,7 @@ def _ab_significance_approx(filtered_full: pd.DataFrame, selected_experiment_nam
             "Cannot compute significance because standard error is zero.",
             "No significance test run.",
             "yellow",
-            _empty_figure("Standard error is zero"),
+            empty_figure("Standard error is zero"),
         )
 
     z_score = (t_mean - c_mean) / se
@@ -137,7 +120,8 @@ def _ab_significance_approx(filtered_full: pd.DataFrame, selected_experiment_nam
     )
     fig = px.bar(cohorts, x="cohort", y="mean_fill_rate", title=None, color="cohort")
     fig.update_traces(error_y=dict(type="data", array=cohorts["ci95"]), texttemplate="%{y:.2f}%")
-    fig.update_layout(showlegend=False, margin=dict(l=20, r=20, t=20, b=20), yaxis_title="Fill Rate (%)")
+    fig.update_layout(showlegend=False, yaxis_title="Fill Rate (%)")
+    fig = apply_standard_chart_layout(fig)
 
     return badge_text, summary, detail, badge_color, fig
 
@@ -243,7 +227,7 @@ def update_arx_analysis(
     filtered = filtered_full.copy()
 
     if not selected_experiment_name or selected_experiment_name == "All":
-        empty = _empty_figure("Select a specific experiment to see breakdown charts")
+        empty = empty_figure("Select a specific experiment to see breakdown charts")
         return (
             "--",
             "--",
@@ -276,10 +260,10 @@ def update_arx_analysis(
         avg_markout = filtered["markout_5m_bps"].mean()
 
     fig_take = px.bar(filtered, x="algo", y="take_rate", title=None)
-    fig_take.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig_take = apply_standard_chart_layout(fig_take)
 
     fig_markout = px.bar(filtered, x="algo", y="markout_5m_bps", title=None)
-    fig_markout.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig_markout = apply_standard_chart_layout(fig_markout)
     table_data = _format_table(filtered.sort_values("as_of", ascending=False))
     badge_text, sig_summary, sig_detail, badge_color, ab_fig = _ab_significance_approx(
         filtered_full,

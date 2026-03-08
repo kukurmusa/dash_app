@@ -6,6 +6,7 @@ import plotly.express as px
 from components.cards import section_title, kpi_card, chart_card
 from components.filters import labelled_select
 from services.tca_service import get_tca_summary_data
+from utils.plotting_utils import apply_standard_chart_layout
 
 dash.register_page(__name__, path="/tca/summary", name="TCA Summary")
 
@@ -84,10 +85,10 @@ def update_tca_summary(selected_desk):
     slippage_by_region = filtered.groupby("region", as_index=False)["slippage_bps"].mean()
 
     fig_notional = px.bar(notional_by_region, x="region", y="notional_m", title=None)
-    fig_notional.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig_notional = apply_standard_chart_layout(fig_notional)
 
     fig_slippage = px.bar(slippage_by_region, x="region", y="slippage_bps", title=None)
-    fig_slippage.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig_slippage = apply_standard_chart_layout(fig_slippage)
 
     return (
         f"{total_orders:,}",

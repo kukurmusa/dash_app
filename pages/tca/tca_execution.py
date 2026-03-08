@@ -6,6 +6,7 @@ import plotly.express as px
 from components.cards import section_title, kpi_card, chart_card
 from components.filters import labelled_select
 from services.tca_service import get_tca_execution_data
+from utils.plotting_utils import apply_standard_chart_layout
 
 dash.register_page(__name__, path="/tca/execution", name="TCA Execution")
 
@@ -81,10 +82,10 @@ def update_tca_execution(selected_region):
     avg_participation = filtered["participation_rate"].mean()
 
     fig_fill = px.bar(filtered, x="algo", y="fill_rate", title=None)
-    fig_fill.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig_fill = apply_standard_chart_layout(fig_fill)
 
     fig_slip = px.line(filtered, x="algo", y="slippage_bps", markers=True, title=None)
-    fig_slip.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+    fig_slip = apply_standard_chart_layout(fig_slip)
 
     return (
         f"{total_orders:,}",

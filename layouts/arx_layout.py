@@ -4,6 +4,7 @@ import dash_mantine_components as dmc
 from components.cards import chart_card, kpi_card, section_title
 from components.filters import labelled_select
 from services.arx_service import get_arx_analysis_data
+from theme import MUTED_TEXT_COLOR, PANEL_BORDER_RADIUS, TABLE_CELL_STYLE, TABLE_HEADER_STYLE, TABLE_STYLE
 
 
 def _analysis_filter_options():
@@ -49,7 +50,6 @@ def build_arx_summary_layout():
                                     "Refresh Summary",
                                     id="arx-summary-refresh",
                                     variant="filled",
-                                    color="blue",
                                     size="sm",
                                 ),
                             ],
@@ -164,7 +164,6 @@ def build_arx_analysis_layout():
                                     "Refresh Breakdown",
                                     id="arx-analysis-refresh",
                                     variant="filled",
-                                    color="blue",
                                     size="sm",
                                     radius="md",
                                 ),
@@ -178,7 +177,6 @@ def build_arx_analysis_layout():
                 "Select a specific experiment name to view the detailed breakdown.",
                 id="arx-analysis-breakdown-empty",
                 variant="light",
-                color="blue",
             ),
             html.Div(
                 id="arx-analysis-breakdown",
@@ -187,19 +185,17 @@ def build_arx_analysis_layout():
                         withBorder=True,
                         mb="md",
                         children=[
-                            dmc.Text("Selected Experiment", size="xs", c="dimmed", tt="uppercase", fw=700),
+                            dmc.Text("Selected Experiment", size="xs", c=MUTED_TEXT_COLOR, tt="uppercase", fw=700),
                             dmc.Title("None", id="arx-analysis-selected-experiment", order=3, mt=4),
                         ],
                     ),
                     dmc.Tabs(
                         value="overview",
-                        color="blue",
-                        variant="pills",
                         children=[
                             dmc.Paper(
                                 withBorder=True,
                                 p="xs",
-                                radius="md",
+                                radius=PANEL_BORDER_RADIUS,
                                 mb="sm",
                                 children=dmc.TabsList(
                                     grow=True,
@@ -260,9 +256,9 @@ def build_arx_analysis_layout():
                                                     ],
                                                     data=[],
                                                     page_size=8,
-                                                    style_table={"overflowX": "auto"},
-                                                    style_header={"fontWeight": "700"},
-                                                    style_cell={"textAlign": "left", "padding": "8px"},
+                                                    style_table=TABLE_STYLE,
+                                                    style_header=TABLE_HEADER_STYLE,
+                                                    style_cell=TABLE_CELL_STYLE,
                                                 ),
                                             ]
                                         ),
@@ -285,7 +281,7 @@ def build_arx_analysis_layout():
                                                     ],
                                                 ),
                                                 dmc.Text(id="arx-analysis-significance-summary", mt="sm", size="sm"),
-                                                dmc.Text(id="arx-analysis-significance-detail", mt="xs", size="sm", c="dimmed"),
+                                                dmc.Text(id="arx-analysis-significance-detail", mt="xs", size="sm", c=MUTED_TEXT_COLOR),
                                             ]
                                         ),
                                         chart_card("Fill Rate Comparison With Confidence Bands", "arx-analysis-ab-chart"),

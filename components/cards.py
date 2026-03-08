@@ -1,11 +1,13 @@
 from dash import dcc
 import dash_mantine_components as dmc
 
+from theme import CHART_HEIGHT, ICON_RADIUS, MUTED_TEXT_COLOR
+
 
 def section_title(title: str, subtitle: str | None = None):
     children = [dmc.Title(title, order=2)]
     if subtitle:
-        children.append(dmc.Text(subtitle, c="dimmed", size="sm"))
+        children.append(dmc.Text(subtitle, c=MUTED_TEXT_COLOR, size="sm"))
     return dmc.Stack(gap=2, children=children)
 
 
@@ -16,12 +18,12 @@ def kpi_card(component_id: str, title: str, accent: str = "blue", icon_text: str
             dmc.ThemeIcon(
                 icon_text,
                 size="sm",
-                radius="xl",
+                radius=ICON_RADIUS,
                 variant="light",
                 color=accent,
             )
         )
-    header_children.append(dmc.Text(title, size="sm", fw=600, c="dimmed"))
+    header_children.append(dmc.Text(title, size="sm", fw=600, c=MUTED_TEXT_COLOR))
 
     return dmc.Card(
         [
@@ -43,7 +45,7 @@ def chart_card(title: str, graph_id: str):
             dcc.Graph(
                 id=graph_id,
                 config={"displayModeBar": False},
-                style={"height": "360px"},
+                style={"height": CHART_HEIGHT},
             ),
         ]
     )

@@ -1,5 +1,7 @@
 import dash_mantine_components as dmc
 
+from theme import MUTED_TEXT_COLOR
+
 
 def nav_link(label: str, href: str, icon_text: str):
     link = dmc.Anchor(
@@ -40,7 +42,7 @@ def sidebar_nav():
                         "TCA",
                         size="xs",
                         fw=700,
-                        c="dimmed",
+                        c=MUTED_TEXT_COLOR,
                         tt="uppercase",
                         className="sidebar-section",
                     ),
@@ -55,7 +57,7 @@ def sidebar_nav():
                         "ARX",
                         size="xs",
                         fw=700,
-                        c="dimmed",
+                        c=MUTED_TEXT_COLOR,
                         tt="uppercase",
                         className="sidebar-section",
                     ),
