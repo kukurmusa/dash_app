@@ -3,6 +3,7 @@ from dash import Input, Output, callback
 import dash_mantine_components as dmc
 import plotly.express as px
 
+from components.ai_summary import ai_summary_card
 from components.cards import section_title, kpi_card, chart_card
 from components.filters import labelled_select
 from services.tca_service import get_tca_summary_data
@@ -57,6 +58,7 @@ layout = dmc.Stack(
                 ),
             ]
         ),
+        ai_summary_card("tca_summary"),
     ],
 )
 

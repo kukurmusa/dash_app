@@ -1,6 +1,7 @@
 from dash import Dash, Input, Output, State, page_container
 import dash_mantine_components as dmc
 
+import callbacks.ai_summary_callbacks  # noqa: F401
 from components.shell import app_shell
 from services.cache import cache
 from theme import THEME

@@ -1,6 +1,7 @@
 from dash import dash_table, html
 import dash_mantine_components as dmc
 
+from components.ai_summary import ai_summary_card
 from components.cards import chart_card, kpi_card, section_title
 from components.filters import labelled_select
 from services.arx_service import get_arx_analysis_data
@@ -88,6 +89,7 @@ def build_arx_summary_layout():
                     ],
                 )
             ),
+            ai_summary_card("arx_summary"),
         ],
     )
 
@@ -292,5 +294,6 @@ def build_arx_analysis_layout():
                     )
                 ],
             ),
+            ai_summary_card("arx_analysis"),
         ],
     )
